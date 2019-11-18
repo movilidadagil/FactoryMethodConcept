@@ -1,0 +1,115 @@
+2 farklı televizyonunuzun olduğunu düşünün. 1 tanesi LED ekranlı diğeri is LCD ekran.
+Bunlardan birisi bozulduğunda TV tamircisini evinize davet etmeniz gerekir. TV tamirci-
+sinin ilk öğerenmeye çalşacağı şey TV nin neden çalışmadığı olacak ve bu yüzden de size
+sebebini soracaktır. Sizin söylediklerinize göre kendisi alet getirecektir.
+
+Birde  yazılım dünyasından bir örnek verelim, bir windows uygulamasında farklı veritabanı kullanı-
+cıları olabilir mesala bir tanesi Oracle ı kullanan kullanıcı bir tanesi sql server kullanan kulla-
+nıcı. Ne zaman bir veriyi veritabanımıza kaydedecek olsak hem sql bağlantısı hem de oracle bağlantı-
+sı yapmamız gerekecek. Diyelim ki bu işi basit bir if else içine koyduk bu da bir çok aynı mantıksal
+işi if ve else içine ayrı ayrı koymamız gerekecek bu da kod kirliliği.
+
+factory pattern örneğini inceledikten sonra
+bu örüntünün alt sınıflarına nesne üretme sorumluluğu yüklediğinde kullanışlı olduğunu görmüş olmalısınız.
+bu örüntü paralel sınıf hiyerarşilerinde yani bazı sorumluluklar bir sınıftan diğerine kaydırılması
+gerektiğinde ve loose coupling yapmanız gerekiyorsa kullanışlıdır.
+loose coupling e değinmek gerekirse nesne yönelimli programlama da coupling bir nesne elementinin diğerine
+sahipliğinin doğrudan bilinme derecesidir yani A sınıfındaki değişiklikleri B sınıfında ne kadar sıklıkta
+değişiklik yaptırmayı gerektiriyor bilgisidir. Loose coupling ise basit bir anlatışla sınıfların birbirinden
+oldukça bağımsız olmasını sağlamaktır. Eğer A sınıfının B sınıfı hakkında sahip olduğu bilgi sadece B sınıfının
+interface  ile A ya aktardığı kadarsa o zaman A ve B sınıfı için loose coupling denir. Mesala eğer tişörtünü
+değiştirdiğinde vücudunu değiştirmen gerekmiyorsa bu loose coupling dir eğer vücudunu değiştirmen gerekiyorsa
+bu tight coupling dir.
+
+Evet factory pattern için bir örnek daha yapalım
+Pizza orderPizza(){
+
+    Pizza pizza = new Pizza();
+    pizza.prepare();
+    pizza.bake();
+    pizza.cut();
+    pizza.box();
+    return pizza;
+}
+diyelim ki tek bir tip pizzadan daha fazlasını yapıyorsanız
+o zaman
+Pizza orderPizza(String tpye){
+    if(type.equals("cheese"){
+            pizza = new CheesePizza();
+    }else if(type.equals("greek"){
+                      pizza = new GreekPizza();
+    }
+    else if(type.equals("pepperoni"){
+                      pizza = new PepperoniPizza();
+    }
+
+    pizza.prepare();
+    pizza.bake();
+    pizza.cut();
+    pizza.box();
+    return pizza;
+}
+eee daha fazla pizza tipi yok mu? Tabi ki de tüm pizzacılar sürekli
+yeni menüler yeni pizza tipleri çıkartıyor bu bir yarış buna nasıl ayak uydu-
+ralım. Yada artık Greek Pizza satmıyorsunuz menüden çıkardınız ne olacak peki.
+ bir kaç tane daha else if evet. Sonrası...
+Burada açık olan birşey var o da hangi somut sınıftan nesne oluşturulacağı ile
+uğraşmak gerçekten karmaşık. Ama artık biz neyin değişip değişmediğini biliyoruz
+O zaman nesne oluşturma işlemini encapsüle edelim:
+
+Yani bu if else leri orderPizza() metodundan çıkartacağız. Ve burayı yeni bir object
+sınıfı ile yapacağız ona da Factory diyeceğiz yani fabrika:)
+Factory ler nesne yaratma işlemlerinin detaylarının olduğu yerdir. Mesala eğer biz
+SimplePizzaFactory sınıfına sahipsek orderPizza() metodu bu sınıfın sadece bir
+client ı haline gelir. Yani ne zaman pizza siparişi gelirse bu Factory e söyleriz.
+SimplePizzaFactory sınıfımızı implemente edelim.
+diyeceksiniz ki biz sadece orderPizza() metodunun altındaki bir kaç satır kodu aldık
+başka sınıfa koyduk avantajı ne?
+Söyleyelim Hatırlamanız gereken şey SimplePizzaFactory sadece Pizza client a değil
+daha bir çok client a sahip olabilir şu anda sadece orderPizza() metodunu gördük.
+Ancak PizzaShopMenu sınıfı olabilir ve pizza ların içeriklerini ve ücretlerini almak için
+bu factory i kullanabilirler. Ve hatta HomeDelivery sınıfı oluşturup pizzaların PizzaShop sını-
+fından farklı yöntemlerde deliver olmasını sağlayabiliriz.
+Yani pizza oluşturma işleminin enkapsüle ederek implementasyon değiştiğinde modifikasyon
+yapabilmek için bir kolaylık sağlamış olduk. Unutmayalım ki biz henüz kendi client kodumuz-
+dan concrete yani somut örnekelemeleri nesne instantiations işlemlerini kaldırdık.
+
+Tabi birde statik metotlarda da bu factory e benzer işlemler yapmışsınızdır farkı ne?
+basit bir factory i statik metot olarak tanımlamak yaygın bir tekniktir ve genellikle
+static factory olarak adlandırılır.
+peki neden statik metot kullanıyoruz. Çünkü nesne örneklemenize gerek yok fakat hatırlamanız
+gereken şey create metotunuzun davranışının değişmemesi ve alt sınıflara aktaramamanız.
+
+PizzaStore sınıfının implementasyonu
+
+
+Evet şimdi bu factory pattern ı web otomasyon, mobil, backend otomasyona uyarlamak.
+
+The Factory Method Pattern hangi objenin yaratılacağına alt sınıfların karar vermesine izin
+vererek enkapsüle eder.
+Factory method pattern ının avantajları neler?
+Factory method pattern sadece bir tane concrete creatore sahipseniz kullanışlıdır. Eğer birden fazla
+product eklerseniz veya bir product ın implementasyonunu değiştirirseniz, Creator u etkilemeyecek çünkü
+Creator herhangi bir ConcreteProduct a tightly coupled değil yani o sınıftan nesne üretip kullanım bağımlılığı
+yok.
+
+Dependency Inversion Principle
+Concrete sınıflara bağımlılığı azaltmak kodumuzda yapacağımız iyi şeylerden bi tanesidir. Yaani abstractionlara bağımlı
+concrete classlara bağımlı değiliz.
+
+Aşağıdaki klavuzumuz size inversion principle ı projelerinizde uygulamanızda implemente edebilmeniz için yardımcı olacaktır:
+hiçbir değişken bir concrete sınıfa referans tutmamalıdır.
+Eğer new keywordünü kullanırsan concrete class a bir referans tutmuş olursun bu yüzden factory metot
+pattern ini kullan.
+
+hiçbir sınıf concrete sınıftan türetilmemelidir.
+eğer bir concrete sınıftan türetme yaparsan, concrete sınıfa bağımlı hale gelmiş olursun. Abstraction dan
+türetme yap yani interface veya abstract sınıf.
+
+hiçbir metot baseclass ın herhangi bir metodunu override etmemelidir.
+eğer implemente edilmiş bir metodu override edersen, base class ın abstraction la başlayamaz.
+Base class ta implemente edilmiş bu metotlar tüm alt sınıfların tarafından paylaşılıyor anlamına gelir.
+
+
+
+
