@@ -1,4 +1,4 @@
-2 farklı televizyonunuzun olduğunu düşünün. 1 tanesi LED ekranlı diğeri is LCD ekran.
+2 farklı televizyonunuzun olduğunu düşünün. 1 tanesi LED ekranlı diğeri ise LCD ekran.
 Bunlardan birisi bozulduğunda TV tamircisini evinize davet etmeniz gerekir. TV tamirci-
 sinin ilk öğerenmeye çalşacağı şey TV nin neden çalışmadığı olacak ve bu yüzden de size
 sebebini soracaktır. Sizin söylediklerinize göre kendisi alet getirecektir.
@@ -6,7 +6,7 @@ sebebini soracaktır. Sizin söylediklerinize göre kendisi alet getirecektir.
 Birde  yazılım dünyasından bir örnek verelim, bir windows uygulamasında farklı veritabanı kullanı-
 cıları olabilir mesala bir tanesi Oracle ı kullanan kullanıcı bir tanesi sql server kullanan kulla-
 nıcı. Ne zaman bir veriyi veritabanımıza kaydedecek olsak hem sql bağlantısı hem de oracle bağlantı-
-sı yapmamız gerekecek. Diyelim ki bu işi basit bir if else içine koyduk bu da bir çok aynı mantıksal
+sı yapmamız gerekecek. Diyelim ki bu işi basit bir if else içine koyduk fakat burada da bir çok aynı mantıksal
 işi if ve else içine ayrı ayrı koymamız gerekecek bu da kod kirliliği.
 
 factory pattern örneğini inceledikten sonra
